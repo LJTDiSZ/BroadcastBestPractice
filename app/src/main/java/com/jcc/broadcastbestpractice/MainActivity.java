@@ -1,5 +1,7 @@
 package com.jcc.broadcastbestpractice;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     private EditText edit1;
     private MyDatabaseHelper dbHelper;
 
@@ -126,6 +128,11 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+
+        Button startNotify = (Button)findViewById(R.id.startNotification);
+        startNotify.setOnClickListener(this);
+        Button startPhoto = (Button)findViewById(R.id.startPhoto);
+        startPhoto.setOnClickListener(this);
     }
 
     @Override
@@ -178,5 +185,31 @@ public class MainActivity extends BaseActivity {
             }
         }
         return content.toString();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.startNotification:
+                Log.d("StartNotification", "Send a notice");
+                Intent intent = new Intent(this, com.jcc.broadcastbestpractice.Notification.class);
+                PendingIntent pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+                NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                android.app.Notification notification = new android.app.Notification.Builder(this)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentIntent(pi)
+                        .setContentText("This is ticker text")
+                        .setWhen(System.currentTimeMillis())
+                        .build();
+                manager.notify(2, notification);
+                break;
+            case R.id.startPhoto:
+                Log.d("startPhoto", "Send a startPhoto");
+                Intent intent1 = new Intent(this, ChoosePicTest.class);
+                startActivity(intent1);
+            default:
+                break;
+        }
     }
 }

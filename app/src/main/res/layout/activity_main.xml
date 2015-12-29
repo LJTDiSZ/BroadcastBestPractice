@@ -38,4 +38,12 @@
         android:text="Replace data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <Button android:id="@+id/startNotification"
+        android:text="Notificatioin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button android:id="@+id/startPhoto"
+        android:text="Photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
